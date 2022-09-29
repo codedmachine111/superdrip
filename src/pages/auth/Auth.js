@@ -1,4 +1,5 @@
 import './Auth.css'
+import {SignupForm} from '../../components/SignupForm/SignupForm'
 import {
     signInWithGooglePopup,
     createUserDocumentFromAuth
@@ -14,8 +15,8 @@ export const Auth =()=>{
     return (
         <>
             <div className="auth-container">
-                    Auth
-                    <button onClick={logGoogleUser}>Sign-in with google</button>
+                    {/* <button onClick={logGoogleUser}>Sign-in with google</button> */}
+                    <SignupForm/>
             </div>
         </>
     )

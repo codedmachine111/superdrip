@@ -11,7 +11,7 @@ export const Navbar = () => {
         <img src={logo} alt="" className='logo-img' />
       </div>
       <input type="checkbox" id="check" />
-      <label for="check" className="checkbtn">
+      <label htmlFor="check" className="checkbtn">
         <i className="fa fa-bars"></i>
       </label>
 

@@ -8,10 +8,10 @@ nav {
   align-items: center;
   height: 15vh;
 }
-.fa-bars{
-  color: #fff;
+.fa-bars {
+  color: #0f0f0f;
 }
-.fa-times{
+.fa-times {
   color: #fff;
 }
 nav ul {
@@ -49,7 +49,7 @@ nav ul li:hover > ul {
   color: #92e3a9;
   background-color: rgba(0, 0, 0, 0);
 }
-.logo{
+.logo {
   width: 10%;
   padding: 1rem;
 }
@@ -59,7 +59,6 @@ nav ul li:hover > ul {
 .logo a span {
   color: #92e3a9;
 }
-
 
 .checkbtn {
   font-size: 30px;
@@ -80,14 +79,11 @@ nav ul li:hover > ul {
   .checkbtn {
     padding-right: 20px;
   }
-  #homeli {
-    background-color: rgba(0, 0, 0, 0);
-  }
   #drop {
     display: none;
     opacity: 0;
   }
-  ul {
+  .list {
     margin-top: 20px;
     position: absolute;
     height: 85vh;
@@ -97,36 +93,46 @@ nav ul li:hover > ul {
     left: -100%;
     text-align: center;
     transition: all 0.5s;
-  }
-  .list {
     display: block;
-    width: 100%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    align-items: right;
+    padding: 1rem;
   }
 
   .list li {
     width: 100%;
-
-    height: 2rem;
     border-radius: 5px;
-    text-align: center;
+    text-align: right;
     margin-bottom: 10px;
     color: #fff;
     margin-top: 20px;
+    display: flex;
+    justify-content: right;
+    align-items: right;
   }
   .list li a:hover {
     background-color: rgba(0, 0, 0, 0);
     transition: 0.2s ease;
-    color: #92e3a9;
+    color: #0f0f0f;
+    background-color: #fff;
+    transition: 0.3s ease;
   }
   .list li a {
+    width: 30%;
     font-size: 1rem;
+    color: #fff;
+    text-align: left;
+    border-radius: 50px;
   }
   nav ul li {
     display: block;
   }
 
   #check:checked ~ ul {
-    left: 0;
+    left: -60%;
     transition: all 0.5s ease-in;
   }
   #check:checked ~ .checkbtn i::before {

@@ -1,0 +1,60 @@
+.sign-up {
+  border: 1px solid rgb(204, 204, 204);
+  padding: 1rem;
+  width: 30%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+
+  h2 {
+    font-family: "Poppins", sans-serif;
+    font-size: 1.2rem;
+    padding: 0.5rem 0;
+    font-weight: 700;
+  }
+
+  p {
+    font-family: "Urbanist", sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+  }
+
+  input {
+    text-transform: capitalize;
+    padding: 0.5rem;
+    margin: 0.5rem 0 1rem 0;
+    font-family: "Urbanist", sans-serif;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    letter-spacing: 1px;
+    border: 1px solid hsl(225, 10%, 45%);
+  }
+  #email {
+    text-transform: lowercase;
+  }
+
+  .btn-submit {
+    width: 50%;
+    margin: 0.5rem 0;
+    background-color: #0f0f0f;
+    color: #fff;
+    font-family: "Urbanist", sans-serif;
+    font-weight: 300;
+    -webkit-appearance: none;
+    border: 1px solid #7e7e7e;
+    outline: none;
+    font-size: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    padding: 1rem;
+    -moz-appearance: none;
+  }
+  .btn-submit:hover {
+    background-color: #fff;
+    color: #0f0f0f;
+    transition: 0.3s ease;
+  }
+}
