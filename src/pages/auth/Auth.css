@@ -1,0 +1,7 @@
+.auth-container{
+    min-height: 85vh;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
