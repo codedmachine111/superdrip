@@ -1,25 +1,11 @@
 .sign-up {
-  border: 1px solid rgb(204, 204, 204);
-  padding: 1rem;
-  width: 30%;
+  padding: 1rem 0;
+  width: 55%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: center;
   align-items: left;
-
-  h2 {
-    font-family: "Poppins", sans-serif;
-    font-size: 1.2rem;
-    padding: 0.5rem 0;
-    font-weight: 700;
-  }
-
-  p {
-    font-family: "Urbanist", sans-serif;
-    font-weight: 400;
-    font-size: 1rem;
-  }
 
   input {
     text-transform: capitalize;
@@ -29,12 +15,17 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     letter-spacing: 1px;
-    border: 1px solid hsl(225, 10%, 45%);
+    border: none;
+    background-color: transparent;
+    border-bottom: 1px  solid hsl(225, 10%, 45%);
   }
   #email {
     text-transform: lowercase;
   }
+  #email::placeholder{
+    text-transform: capitalize;
 
+  }
   .btn-submit {
     width: 50%;
     margin: 0.5rem 0;

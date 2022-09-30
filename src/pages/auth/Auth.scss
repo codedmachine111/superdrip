@@ -1,0 +1,32 @@
+.auth-container {
+  min-height: 85vh;
+  height: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 2rem;
+
+  .sign-in-container,
+  .sign-up-container {
+    width: 50%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    
+
+    h2 {
+      font-family: "Poppins", sans-serif;
+      font-size: 2.5rem;
+      padding: 0.5rem 0;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+    }
+
+    p {
+      font-family: "Urbanist", sans-serif;
+      font-weight: 400;
+      font-size: 1.1rem;
+    }
+  }
+}
