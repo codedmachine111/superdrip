@@ -5,7 +5,8 @@ import { Routes, Route } from "react-router-dom";
 import { Navbar } from "./components/Navbar/Navbar";
 import { Shop } from "./pages/shop/Shop";
 import { Auth } from "./pages/auth/Auth";
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
+import {onAuthStateChangedListener,createUserDocumentFromAuth} from './utils/firebase/firebase.utils'
 
 export const AppContext = createContext({
   setCurrentUser: () => null,
@@ -15,6 +16,17 @@ export const AppContext = createContext({
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const value = { currentUser, setCurrentUser };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChangedListener((user)=>{
+      if(user){
+        createUserDocumentFromAuth(user);
+      }
+      setCurrentUser(user);
+    })
+    return unsubscribe;
+  }, [])
+  
   return (
     <>
       <AppContext.Provider value={value}>

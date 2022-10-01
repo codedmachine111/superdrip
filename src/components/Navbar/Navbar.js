@@ -8,10 +8,9 @@ import { signOutUser } from '../../utils/firebase/firebase.utils';
 
 export const Navbar = () => {
   
-  const {currentUser, setCurrentUser} = useContext(AppContext);
+  const {currentUser } = useContext(AppContext);
   const signOutHandler = async()=>{
       await signOutUser();
-      setCurrentUser(null);
   }
   return (
     <nav>
