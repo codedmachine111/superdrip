@@ -1,10 +1,18 @@
 import './Navbar.css'
 import { Link } from "react-router-dom"
 import logo from '../../media/superdrip-logo.png'
+import {useContext} from "react";
+import { AppContext } from '../../App';
+import {Button} from '../Button/Button'
+import { signOutUser } from '../../utils/firebase/firebase.utils';
 
 export const Navbar = () => {
   
-
+  const {currentUser, setCurrentUser} = useContext(AppContext);
+  const signOutHandler = async()=>{
+      await signOutUser();
+      setCurrentUser(null);
+  }
   return (
     <nav>
       <div className="logo">
@@ -18,7 +26,8 @@ export const Navbar = () => {
       <ul className="list">
         <li id="active"><Link to="/">Home</Link></li>
         <li><Link to="/shop" id="d">Shop</Link></li>
-        <li><Link to="/auth" id="d">Sign-in | Sign-up</Link></li>
+        {!currentUser ? <li><Link to="/auth" id="d">Sign-in</Link></li> : <li><Button title="signout" id="signout" onClick={signOutHandler}/></li> }
+        
       </ul>
     </nav>
   )

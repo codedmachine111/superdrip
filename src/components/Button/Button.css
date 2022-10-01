@@ -28,3 +28,8 @@
 #google:hover{
   background-color: #fff;
 }
+
+#signout{
+  width: 100%;
+  text-transform: capitalize;
+}

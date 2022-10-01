@@ -16,9 +16,10 @@ nav {
 }
 nav ul {
   display: flex;
-  width: 40%;
+  width: 30%;
   justify-content: space-around;
   list-style-type: none;
+  align-items: center;
 }
 nav ul li {
   text-align: center;
