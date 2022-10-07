@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Button } from ".././Button/Button";
 import {
   signInWithGooglePopup,
-  createUserDocumentFromAuth,
   signInUserWithEmailAndPassword
 } from "../../utils/firebase/firebase.utils";
 

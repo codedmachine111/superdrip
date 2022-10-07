@@ -5,6 +5,8 @@ import {useContext} from "react";
 import { AppContext } from '../../App';
 import {Button} from '../Button/Button'
 import { signOutUser } from '../../utils/firebase/firebase.utils';
+import { CartIcon } from '../CartIcon/CartIcon';
+import {CartDropdown} from '../CartDropdown/CartDropdown'
 
 export const Navbar = () => {
   
@@ -26,8 +28,9 @@ export const Navbar = () => {
         <li id="active"><Link to="/">Home</Link></li>
         <li><Link to="/shop" id="d">Shop</Link></li>
         {!currentUser ? <li><Link to="/auth" id="d">Sign-in</Link></li> : <li><Button title="signout" id="signout" onClick={signOutHandler}/></li> }
-        
+        <CartIcon/>
       </ul>
+      <CartDropdown/>
     </nav>
   )
 }

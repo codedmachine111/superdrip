@@ -33,3 +33,12 @@
   width: 100%;
   text-transform: capitalize;
 }
+
+#inverted{
+  background-color: #fff;
+  color: #0f0f0f;
+}
+#inverted:hover{
+  background-color: #0f0f0f;
+  color: #fff;
+}
