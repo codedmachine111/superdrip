@@ -9,7 +9,7 @@ export const Shop =()=>{
         <>
             <div className="item-container">
                 {products.map((item)=>{
-                    return <ProductCard name={item.name} img={item.img} price={item.price}/>
+                    return <ProductCard name={item.name} img={item.img} price={item.price} product={item}/>
                 })}    
             </div>
 

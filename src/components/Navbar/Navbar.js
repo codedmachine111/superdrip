@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import logo from '../../media/superdrip-logo.png'
 import {useContext} from "react";
 import { AppContext } from '../../App';
+import { CartContext } from '../../App';
 import {Button} from '../Button/Button'
 import { signOutUser } from '../../utils/firebase/firebase.utils';
 import { CartIcon } from '../CartIcon/CartIcon';
@@ -11,9 +12,11 @@ import {CartDropdown} from '../CartDropdown/CartDropdown'
 export const Navbar = () => {
   
   const {currentUser } = useContext(AppContext);
+  const {isCartOpen} = useContext(CartContext);
   const signOutHandler = async()=>{
       await signOutUser();
   }
+
   return (
     <nav>
       <div className="logo">
@@ -30,7 +33,7 @@ export const Navbar = () => {
         {!currentUser ? <li><Link to="/auth" id="d">Sign-in</Link></li> : <li><Button title="signout" id="signout" onClick={signOutHandler}/></li> }
         <CartIcon/>
       </ul>
-      <CartDropdown/>
+      {isCartOpen ? <CartDropdown/> : null}
     </nav>
   )
 }
