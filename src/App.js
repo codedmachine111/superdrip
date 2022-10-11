@@ -11,7 +11,7 @@ import {
   onAuthStateChangedListener,
   createUserDocumentFromAuth,
 } from "./utils/firebase/firebase.utils";
-import PRODUCTS from "./shop-data/shop-data.json";
+import SHOP_DATA from "./shop-data/shop-data.js";
 
 export const AppContext = createContext({
   setCurrentUser: () => null,
@@ -61,7 +61,7 @@ export const CartContext = createContext({
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
-  const [products, setProducts] = useState(PRODUCTS);
+  const [products, setProducts] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [cartCount, setCartCount] = useState(0);
