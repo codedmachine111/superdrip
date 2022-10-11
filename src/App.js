@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import { Navbar } from "./components/Navbar/Navbar";
 import { Shop } from "./pages/shop/Shop";
 import { Auth } from "./pages/auth/Auth";
+import { Checkout } from "./pages/checkout/Checkout";
 import { createContext, useState, useEffect } from "react";
 import {
   onAuthStateChangedListener,
@@ -36,13 +37,26 @@ export const addCartItem = (cartItems, productToAdd) => {
 
   return [...cartItems, { ...productToAdd, quantity: 1 }];
 };
+const removeCartItem = (cartItems, productTorRemove)=>{
+  const existingCartItem = cartItems.find((cartItem) => cartItem.id === productTorRemove.id)
 
+  if(existingCartItem.quantity === 1){
+    return cartItems.filter((cartItem)=> cartItem.id !== productTorRemove.id)
+  }
+  return cartItems.map((cartItem)=> cartItem.id === productTorRemove.id ? {...cartItem, quantity: cartItem.quantity - 1} : cartItem)
+}
+const clearCartItem = (cartItems, productTorRemove) => {
+  return cartItems.filter((cartItem) => cartItem.id !== productTorRemove.id);
+}
 export const CartContext = createContext({
   isCartOpen: false,
   setIsCartOpen: () => {},
   cartItems: [],
   addItemToCart: () => {},
-  cartCount: 0
+  removeItemFromCart: () => {},
+  clearItemFromCart: () => {},
+  cartCount: 0,
+  cartTotal: 0
 });
 
 function App() {
@@ -51,18 +65,30 @@ function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [cartCount, setCartCount] = useState(0);
+  const [cartTotal, setCartTotal] = useState(0);
 
   useEffect(()=>{
     const newCartCount = cartItems.reduce((total, cartItem)=> total + cartItem.quantity, 0);
     setCartCount(newCartCount);
   },[cartItems])
 
+  useEffect(()=>{
+    const newCartTotal= cartItems.reduce((total, cartItem)=> total + cartItem.price * cartItem.quantity, 0);
+    setCartTotal(newCartTotal);
+  },[cartItems])
+
   const addItemToCart  = (product)=>{
     setCartItems(addCartItem(cartItems, product));
   }
+  const removeItemFromCart = (product)=>{
+    setCartItems(removeCartItem(cartItems, product));
+  }
+  const clearItemFromCart = (product)=>{
+    setCartItems(clearCartItem(cartItems, product));
+  }
   const value = { currentUser, setCurrentUser };
   const p_value = { products, setProducts };
-  const c_value = { isCartOpen, setIsCartOpen, addItemToCart , cartItems, cartCount,setCartCount};
+  const c_value = { isCartOpen, setIsCartOpen, addItemToCart , removeItemFromCart,clearItemFromCart, cartItems, cartCount,setCartCount, cartTotal, setCartTotal};
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
@@ -84,6 +110,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/shop" element={<Shop />} />
               <Route path="/auth" element={<Auth />} />
+              <Route path="/checkout" element={<Checkout />} />
               <Route path="/*" element={<div>Page does not exist</div>} />
             </Routes>
           </CartContext.Provider>
