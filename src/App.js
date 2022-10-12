@@ -10,6 +10,7 @@ import { createContext, useState, useEffect } from "react";
 import {
   onAuthStateChangedListener,
   createUserDocumentFromAuth,
+  getCategoriesAndDocuments
 } from "./utils/firebase/firebase.utils";
 import SHOP_DATA from "./shop-data/shop-data.js";
 
@@ -18,8 +19,8 @@ export const AppContext = createContext({
   currentUser: null,
 });
 
-export const ProductContext = createContext({
-  products: [],
+export const CategoriesContext = createContext({
+  categoriesMap: {},
 });
 
 export const addCartItem = (cartItems, productToAdd) => {
@@ -61,7 +62,7 @@ export const CartContext = createContext({
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
-  const [products, setProducts] = useState([]);
+  const [categoriesMap, setCategoriesMap] = useState({});
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [cartCount, setCartCount] = useState(0);
@@ -76,6 +77,14 @@ function App() {
     const newCartTotal= cartItems.reduce((total, cartItem)=> total + cartItem.price * cartItem.quantity, 0);
     setCartTotal(newCartTotal);
   },[cartItems])
+  
+  useEffect(() => {
+    const getCategories = async ()=>{
+      const categoryMap = await getCategoriesAndDocuments('categories');
+      setCategoriesMap(categoryMap);
+    }
+    getCategories();
+  }, []);
 
   const addItemToCart  = (product)=>{
     setCartItems(addCartItem(cartItems, product));
@@ -87,7 +96,7 @@ function App() {
     setCartItems(clearCartItem(cartItems, product));
   }
   const value = { currentUser, setCurrentUser };
-  const p_value = { products, setProducts };
+  const p_value = { categoriesMap, setCategoriesMap };
   const c_value = { isCartOpen, setIsCartOpen, addItemToCart , removeItemFromCart,clearItemFromCart, cartItems, cartCount,setCartCount, cartTotal, setCartTotal};
 
   useEffect(() => {
@@ -103,7 +112,7 @@ function App() {
   return (
     <>
       <AppContext.Provider value={value}>
-        <ProductContext.Provider value={p_value}>
+        <CategoriesContext.Provider value={p_value}>
           <CartContext.Provider value={c_value}>
             <Navbar />
             <Routes>
@@ -114,7 +123,7 @@ function App() {
               <Route path="/*" element={<div>Page does not exist</div>} />
             </Routes>
           </CartContext.Provider>
-        </ProductContext.Provider>
+        </CategoriesContext.Provider>
       </AppContext.Provider>
     </>
   );
