@@ -1,9 +1,4 @@
 import { CategoryItem } from "../CategoryItem/CategoryItem";
-import img1 from '../../media/dubai.jpg'
-import img2 from '../../media/europebg.jpg'
-import img3 from '../../media/goa.jpg'
-import img4 from '../../media/himachalbg.jpg'
-import img5 from '../../media/himachalbg.jpg'
 import './Directory.scss'
 
 export const Directory = () => {
@@ -11,27 +6,32 @@ export const Directory = () => {
     {
       id: 1,
       title: "Hats",
-      img: img1,
+      img: "https://i.ibb.co/bLB646Z/red-beanie.png",
+      route: "/shop/hats",
     },
     {
       id: 2,
       title: "Jackets",
-      img: img2,
+      img: 'https://i.ibb.co/1RcFPk0/white-nike-high-tops.png',
+      route: "/shop/jackets",
     },
     {
       id: 3,
       title: "Sneakers",
-      img: img3,
+      img: 'https://i.ibb.co/N71k1ML/grey-jean-jacket.png',
+      route: "/shop/sneakers",
     },
     {
       id: 4,
       title: "Womens",
-      img: img4,
+      img: 'https://i.ibb.co/KV18Ysr/floral-skirt.png',
+      route: "/shop/womens",
     },
     {
       id: 5,
       title: "Mens",
-      img: img5,
+      img: 'https://i.ibb.co/mh3VM1f/polka-dot-shirt.png',
+      route: "/shop/mens",
     },
   ];
 
@@ -39,7 +39,7 @@ export const Directory = () => {
     <>
       <div className="directory-container">
         {categories.map((element) => {
-          return <CategoryItem img={element.img} title={element.title} />;
+          return <CategoryItem img={element.img} title={element.title} route={element.route}/>;
         })}
       </div>
     </>

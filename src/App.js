@@ -12,7 +12,6 @@ import {
   createUserDocumentFromAuth,
   getCategoriesAndDocuments
 } from "./utils/firebase/firebase.utils";
-import SHOP_DATA from "./shop-data/shop-data.js";
 
 export const AppContext = createContext({
   setCurrentUser: () => null,
@@ -117,7 +116,7 @@ function App() {
             <Navbar />
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/shop" element={<Shop />} />
+              <Route path="/shop/*" element={<Shop />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route path="/*" element={<div>Page does not exist</div>} />
