@@ -10,8 +10,10 @@ import { createContext, useState, useEffect } from "react";
 import {
   onAuthStateChangedListener,
   createUserDocumentFromAuth,
-  getCategoriesAndDocuments
+  getCategoriesAndDocuments,
 } from "./utils/firebase/firebase.utils";
+import { Elements } from "@stripe/react-stripe-js";
+import { stripePromise } from "./utils/stripe/stripe.utils";
 
 export const AppContext = createContext({
   setCurrentUser: () => null,
@@ -37,17 +39,23 @@ export const addCartItem = (cartItems, productToAdd) => {
 
   return [...cartItems, { ...productToAdd, quantity: 1 }];
 };
-const removeCartItem = (cartItems, productTorRemove)=>{
-  const existingCartItem = cartItems.find((cartItem) => cartItem.id === productTorRemove.id)
+const removeCartItem = (cartItems, productTorRemove) => {
+  const existingCartItem = cartItems.find(
+    (cartItem) => cartItem.id === productTorRemove.id
+  );
 
-  if(existingCartItem.quantity === 1){
-    return cartItems.filter((cartItem)=> cartItem.id !== productTorRemove.id)
+  if (existingCartItem.quantity === 1) {
+    return cartItems.filter((cartItem) => cartItem.id !== productTorRemove.id);
   }
-  return cartItems.map((cartItem)=> cartItem.id === productTorRemove.id ? {...cartItem, quantity: cartItem.quantity - 1} : cartItem)
-}
+  return cartItems.map((cartItem) =>
+    cartItem.id === productTorRemove.id
+      ? { ...cartItem, quantity: cartItem.quantity - 1 }
+      : cartItem
+  );
+};
 const clearCartItem = (cartItems, productTorRemove) => {
   return cartItems.filter((cartItem) => cartItem.id !== productTorRemove.id);
-}
+};
 export const CartContext = createContext({
   isCartOpen: false,
   setIsCartOpen: () => {},
@@ -56,7 +64,7 @@ export const CartContext = createContext({
   removeItemFromCart: () => {},
   clearItemFromCart: () => {},
   cartCount: 0,
-  cartTotal: 0
+  cartTotal: 0,
 });
 
 function App() {
@@ -67,36 +75,53 @@ function App() {
   const [cartCount, setCartCount] = useState(0);
   const [cartTotal, setCartTotal] = useState(0);
 
-  useEffect(()=>{
-    const newCartCount = cartItems.reduce((total, cartItem)=> total + cartItem.quantity, 0);
-    setCartCount(newCartCount);
-  },[cartItems])
-
-  useEffect(()=>{
-    const newCartTotal= cartItems.reduce((total, cartItem)=> total + cartItem.price * cartItem.quantity, 0);
-    setCartTotal(newCartTotal);
-  },[cartItems])
-  
   useEffect(() => {
-    const getCategories = async ()=>{
-      const categoryMap = await getCategoriesAndDocuments('categories');
+    const newCartCount = cartItems.reduce(
+      (total, cartItem) => total + cartItem.quantity,
+      0
+    );
+    setCartCount(newCartCount);
+  }, [cartItems]);
+
+  useEffect(() => {
+    const newCartTotal = cartItems.reduce(
+      (total, cartItem) => total + cartItem.price * cartItem.quantity,
+      0
+    );
+    setCartTotal(newCartTotal);
+  }, [cartItems]);
+
+  useEffect(() => {
+    const getCategories = async () => {
+      const categoryMap = await getCategoriesAndDocuments("categories");
       setCategoriesMap(categoryMap);
-    }
+    };
     getCategories();
   }, []);
 
-  const addItemToCart  = (product)=>{
+  const addItemToCart = (product) => {
     setCartItems(addCartItem(cartItems, product));
-  }
-  const removeItemFromCart = (product)=>{
+  };
+  const removeItemFromCart = (product) => {
     setCartItems(removeCartItem(cartItems, product));
-  }
-  const clearItemFromCart = (product)=>{
+  };
+  const clearItemFromCart = (product) => {
     setCartItems(clearCartItem(cartItems, product));
-  }
+  };
   const value = { currentUser, setCurrentUser };
   const p_value = { categoriesMap, setCategoriesMap };
-  const c_value = { isCartOpen, setIsCartOpen, addItemToCart , removeItemFromCart,clearItemFromCart, cartItems, cartCount,setCartCount, cartTotal, setCartTotal};
+  const c_value = {
+    isCartOpen,
+    setIsCartOpen,
+    addItemToCart,
+    removeItemFromCart,
+    clearItemFromCart,
+    cartItems,
+    cartCount,
+    setCartCount,
+    cartTotal,
+    setCartTotal,
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
@@ -113,14 +138,16 @@ function App() {
       <AppContext.Provider value={value}>
         <CategoriesContext.Provider value={p_value}>
           <CartContext.Provider value={c_value}>
-            <Navbar />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/shop/*" element={<Shop />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/*" element={<div>Page does not exist</div>} />
-            </Routes>
+            <Elements stripe={stripePromise}>
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/shop/*" element={<Shop />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/checkout" element={<Checkout />} />
+                <Route path="/*" element={<div>Page does not exist</div>} />
+              </Routes>
+            </Elements>
           </CartContext.Provider>
         </CategoriesContext.Provider>
       </AppContext.Provider>

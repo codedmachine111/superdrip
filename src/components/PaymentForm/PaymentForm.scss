@@ -1,0 +1,15 @@
+.payment-form-container{
+    margin: 1rem 0;
+    width: 60%;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #1b1b1b;
+    justify-content: center;
+
+    h2{
+        margin-bottom: 2rem;
+        font-family: "Urbanist", sans-serif;
+        font-weight: 500;
+    }
+}
