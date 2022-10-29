@@ -21,6 +21,26 @@ export const AppContext = createContext({
   currentUser: null,
 });
 
+export const USER_ACTION_TYPES = {
+  SET_CURRENT_USER: "SET_CURRENT_USER",
+};
+
+const USER_INITIAL_STATE = {
+  currentUser: null,
+};
+
+const userReducer = (state, action) => {
+  const { type, payload } = action;
+  switch (type) {
+    case USER_ACTION_TYPES.SET_CURRENT_USER:
+      return {
+        ...state,
+        currentUser: payload,
+      };
+    default:
+      throw new Error(`Unhandled action type: ${type}`);
+  }
+};
 export const CategoriesContext = createContext({
   categoriesMap: {},
 });
@@ -69,9 +89,9 @@ export const CartContext = createContext({
 const CART_ACTION_TYPES = {
   SET_CART_ITEMS: "SET_CART_ITEMS",
   SET_IS_CART_OPEN: "SET_IS_CART_OPEN",
-}
+};
 
-const INITIAL_STATE = {
+const CART_INITIAL_STATE = {
   isCartOpen: false,
   cartItems: [],
   cartCount: 0,
@@ -97,19 +117,20 @@ const cartReducer = (state, action) => {
   }
 };
 function App() {
-  const [currentUser, setCurrentUser] = useState(null);
   const [categoriesMap, setCategoriesMap] = useState({});
 
   const [{ cartCount, cartItems, isCartOpen, cartTotal }, dispatch] =
-    useReducer(cartReducer, INITIAL_STATE);
+    useReducer(cartReducer, CART_INITIAL_STATE);
 
-  useEffect(() => {
-    const getCategories = async () => {
-      const categoryMap = await getCategoriesAndDocuments("categories");
-      setCategoriesMap(categoryMap);
-    };
-    getCategories();
-  }, []);
+  const [{ currentUser }, userDispatch] = useReducer(
+    userReducer,
+    USER_INITIAL_STATE
+  );
+
+  const setCurrentUser = (user) => {
+    console.log(user)
+    userDispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user));
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
@@ -119,6 +140,14 @@ function App() {
       setCurrentUser(user);
     });
     return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    const getCategories = async () => {
+      const categoryMap = await getCategoriesAndDocuments("categories");
+      setCategoriesMap(categoryMap);
+    };
+    getCategories();
   }, []);
 
   const UpdateCartItemsReducer = (newCartItems) => {
@@ -135,7 +164,7 @@ function App() {
         cartItems: newCartItems,
         cartCount: newCartCount,
         cartTotal: newCartTotal,
-      }) 
+      })
     );
   };
   const addItemToCart = (product) => {
@@ -150,11 +179,8 @@ function App() {
     const newCartItems = clearCartItem(cartItems, product);
     UpdateCartItemsReducer(newCartItems);
   };
-
   const setIsCartOpen = (bool) => {
-    dispatch(
-      createAction(CART_ACTION_TYPES.SET_IS_CART_OPEN, bool)
-    );
+    dispatch(createAction(CART_ACTION_TYPES.SET_IS_CART_OPEN, bool));
   };
 
   const value = { currentUser, setCurrentUser };
