@@ -32,7 +32,7 @@ export const Checkout=()=> {
       ))}
       <div className='total'>TOTAL: ${cartTotal}</div>
 
-      <PaymentForm />
+      {/* <PaymentForm /> */}
     </div>
   )
 }

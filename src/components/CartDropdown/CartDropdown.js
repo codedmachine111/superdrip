@@ -19,7 +19,7 @@ export const CartDropdown = () => {
                   name={item.name}
                   price={item.price}
                   quantity={item.quantity}
-                  img={item.img}
+                  imgUrl={item.imageUrl}
                 />
               );
             })
