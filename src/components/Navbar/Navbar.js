@@ -1,17 +1,16 @@
 import './Navbar.css'
 import { Link } from "react-router-dom"
+import { useContext } from 'react';
 import logo from '../../media/superdrip-logo.png'
-import {useContext} from "react";
-import { AppContext } from '../../App';
 import { CartContext } from '../../App';
 import {Button} from '../Button/Button'
 import { signOutUser } from '../../utils/firebase/firebase.utils';
 import { CartIcon } from '../CartIcon/CartIcon';
 import {CartDropdown} from '../CartDropdown/CartDropdown'
+import { useSelector } from 'react-redux';
 
 export const Navbar = () => {
-  
-  const {currentUser } = useContext(AppContext);
+  const currentUser = useSelector((state)=>state.user.currentUser)
   const {isCartOpen} = useContext(CartContext);
   const signOutHandler = async()=>{
       await signOutUser();

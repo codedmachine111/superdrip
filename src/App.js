@@ -15,20 +15,22 @@ import {
 import { createAction } from "./utils/reducer/reducer.utils";
 import { Elements } from "@stripe/react-stripe-js";
 import { stripePromise } from "./utils/stripe/stripe.utils";
+import { useDispatch } from "react-redux";
 
+// SETTING UP USER CONTEXT AND REDUCER
 export const AppContext = createContext({
   setCurrentUser: () => null,
   currentUser: null,
 });
-
+// ACTION TYPES FOR USER REDUCER
 export const USER_ACTION_TYPES = {
   SET_CURRENT_USER: "SET_CURRENT_USER",
 };
-
+// INITIAL STATE FOR USER REDUCER
 const USER_INITIAL_STATE = {
   currentUser: null,
 };
-
+// USER REDUCER
 const userReducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
@@ -41,9 +43,13 @@ const userReducer = (state, action) => {
       throw new Error(`Unhandled action type: ${type}`);
   }
 };
+
+// SETTING UP CATGEORIES CONTEXT AND REDUCER
 export const CategoriesContext = createContext({
   categoriesMap: {},
 });
+
+// FUNCTIONS TO HANDLE CART ITEMS
 export const addCartItem = (cartItems, productToAdd) => {
   const existingCartItem = cartItems.find(
     (cartItem) => cartItem.id === productToAdd.id
@@ -76,6 +82,8 @@ const removeCartItem = (cartItems, productTorRemove) => {
 const clearCartItem = (cartItems, productTorRemove) => {
   return cartItems.filter((cartItem) => cartItem.id !== productTorRemove.id);
 };
+
+// SETTING UP CART CONTEXT AND REDUCER
 export const CartContext = createContext({
   isCartOpen: false,
   setIsCartOpen: () => {},
@@ -86,18 +94,19 @@ export const CartContext = createContext({
   cartCount: 0,
   cartTotal: 0,
 });
+// ACTION TYPES FOR CART REDUCER
 const CART_ACTION_TYPES = {
   SET_CART_ITEMS: "SET_CART_ITEMS",
   SET_IS_CART_OPEN: "SET_IS_CART_OPEN",
 };
-
+// INITIAL STATE FOR CART REDUCER
 const CART_INITIAL_STATE = {
   isCartOpen: false,
   cartItems: [],
   cartCount: 0,
   cartTotal: 0,
 };
-
+// CART REDUCER
 const cartReducer = (state, action) => {
   const { type, payload } = action;
 
@@ -116,22 +125,26 @@ const cartReducer = (state, action) => {
       throw new Error(`Unhandled action type: ${type}`);
   }
 };
+
 function App() {
   const [categoriesMap, setCategoriesMap] = useState({});
 
-  const [{ cartCount, cartItems, isCartOpen, cartTotal }, dispatch] =
+  // DISPATCH FOR REDUX
+  const dis = useDispatch();
+
+  // INITIALIZE CART REDUCER
+  const [{ cartCount, cartItems, isCartOpen, cartTotal }, cartDispatch] =
     useReducer(cartReducer, CART_INITIAL_STATE);
 
-  const [{ currentUser }, userDispatch] = useReducer(
-    userReducer,
-    USER_INITIAL_STATE
-  );
+  // INITIALIZE USER REDUCER
+  const [{ currentUser }] = useReducer(userReducer, USER_INITIAL_STATE);
 
+  // SET CURRENT USER USING DISPATCH
   const setCurrentUser = (user) => {
-    console.log(user)
-    userDispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user));
+    dis(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user));
   };
 
+  // CREATE USER DOCUMENT IN FIRESTORE AND SET CURRENT USER
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
       if (user) {
@@ -142,6 +155,7 @@ function App() {
     return unsubscribe;
   }, []);
 
+  // FOR CATEGORIES
   useEffect(() => {
     const getCategories = async () => {
       const categoryMap = await getCategoriesAndDocuments("categories");
@@ -150,6 +164,7 @@ function App() {
     getCategories();
   }, []);
 
+  // HANDLE CART ITEMS USING REDUCER
   const UpdateCartItemsReducer = (newCartItems) => {
     const newCartCount = newCartItems.reduce(
       (total, cartItem) => total + cartItem.quantity,
@@ -159,7 +174,7 @@ function App() {
       (total, cartItem) => total + cartItem.price * cartItem.quantity,
       0
     );
-    dispatch(
+    cartDispatch(
       createAction(CART_ACTION_TYPES.SET_CART_ITEMS, {
         cartItems: newCartItems,
         cartCount: newCartCount,
@@ -167,6 +182,7 @@ function App() {
       })
     );
   };
+  // FUNCTIONS TO HANDLE UPDATE CART ITEMS USING REDUCER
   const addItemToCart = (product) => {
     const newCartItems = addCartItem(cartItems, product);
     UpdateCartItemsReducer(newCartItems);
@@ -180,9 +196,10 @@ function App() {
     UpdateCartItemsReducer(newCartItems);
   };
   const setIsCartOpen = (bool) => {
-    dispatch(createAction(CART_ACTION_TYPES.SET_IS_CART_OPEN, bool));
+    cartDispatch(createAction(CART_ACTION_TYPES.SET_IS_CART_OPEN, bool));
   };
 
+  // VALUES FOR CONTEXT
   const value = { currentUser, setCurrentUser };
   const p_value = { categoriesMap, setCategoriesMap };
 
