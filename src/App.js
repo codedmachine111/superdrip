@@ -17,11 +17,8 @@ import { Elements } from "@stripe/react-stripe-js";
 import { stripePromise } from "./utils/stripe/stripe.utils";
 import { useDispatch } from "react-redux";
 
-// SETTING UP USER CONTEXT AND REDUCER
-export const AppContext = createContext({
-  setCurrentUser: () => null,
-  currentUser: null,
-});
+// SETTING UP USER REDUCER
+
 // ACTION TYPES FOR USER REDUCER
 export const USER_ACTION_TYPES = {
   SET_CURRENT_USER: "SET_CURRENT_USER",
@@ -44,10 +41,25 @@ const userReducer = (state, action) => {
   }
 };
 
-// SETTING UP CATGEORIES CONTEXT AND REDUCER
-export const CategoriesContext = createContext({
+// SETTING UP CATGEORIES REDUCER
+const CATEGORIES_ACTION_TYPES={
+  SET_CATEGORIES: "SET_CATEGORIES",
+}
+const CATEGORIES_INITIAL_STATE = {
   categoriesMap: {},
-});
+}
+const categoriesReducer=(state,action)=>{
+  const {type, payload} = action;
+  switch(type){
+    case CATEGORIES_ACTION_TYPES.SET_CATEGORIES:
+      return {
+        ...state,
+        categoriesMap: payload,
+      }
+    default:
+      throw new Error(`Unhandled action type: ${type}`);
+  }
+}
 
 // FUNCTIONS TO HANDLE CART ITEMS
 export const addCartItem = (cartItems, productToAdd) => {
@@ -127,8 +139,6 @@ const cartReducer = (state, action) => {
 };
 
 function App() {
-  const [categoriesMap, setCategoriesMap] = useState({});
-
   // DISPATCH FOR REDUX
   const dis = useDispatch();
 
@@ -139,6 +149,13 @@ function App() {
   // INITIALIZE USER REDUCER
   const [{ currentUser }] = useReducer(userReducer, USER_INITIAL_STATE);
 
+  // INITIALIZE CATEGORIES REDUCER
+  const [{categoriesMap}, categoriesDispatch] = useReducer(categoriesReducer, CATEGORIES_INITIAL_STATE);
+
+  // SET CATEGORIES MAP
+  const setCategoriesMap = (categoriesMap) => {
+    dis(createAction(CATEGORIES_ACTION_TYPES.SET_CATEGORIES, categoriesMap));
+  }
   // SET CURRENT USER USING DISPATCH
   const setCurrentUser = (user) => {
     dis(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user));
@@ -200,8 +217,6 @@ function App() {
   };
 
   // VALUES FOR CONTEXT
-  const value = { currentUser, setCurrentUser };
-  const p_value = { categoriesMap, setCategoriesMap };
 
   const c_value = {
     isCartOpen,
@@ -216,8 +231,6 @@ function App() {
 
   return (
     <>
-      <AppContext.Provider value={value}>
-        <CategoriesContext.Provider value={p_value}>
           <CartContext.Provider value={c_value}>
             <Elements stripe={stripePromise}>
               <Navbar />
@@ -230,8 +243,6 @@ function App() {
               </Routes>
             </Elements>
           </CartContext.Provider>
-        </CategoriesContext.Provider>
-      </AppContext.Provider>
     </>
   );
 }

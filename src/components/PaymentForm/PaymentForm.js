@@ -10,7 +10,7 @@ export const PaymentForm = () => {
     const stripe = useStripe();
     const elements = useElements();
     const {cartTotal} = useContext(CartContext);
-    const {currentUser} = useContext(AppContext);
+    // const {currentUser} = useContext(AppContext);
     const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
     const paymentHandler = async (e) => {
@@ -33,7 +33,7 @@ export const PaymentForm = () => {
             payment_method: {
                 card: elements.getElement(CardElement),
                 billing_details: {
-                    name: currentUser ?  currentUser.displayName : "guest",
+                    name: "guest",
                 }
             }
         })
