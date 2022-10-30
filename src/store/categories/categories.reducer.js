@@ -1,10 +1,10 @@
-const CATEGORIES_ACTION_TYPES={
+export const CATEGORIES_ACTION_TYPES={
     SET_CATEGORIES: "SET_CATEGORIES",
   }
-  const CATEGORIES_INITIAL_STATE = {
+  export const CATEGORIES_INITIAL_STATE = {
     categoriesMap: {},
   }
-  const categoriesReducer=(state=CATEGORIES_INITIAL_STATE,action={})=>{
+  export const categoriesReducer=(state=CATEGORIES_INITIAL_STATE,action={})=>{
     const {type, payload} = action;
     switch(type){
       case CATEGORIES_ACTION_TYPES.SET_CATEGORIES:
@@ -13,6 +13,6 @@ const CATEGORIES_ACTION_TYPES={
           categoriesMap: payload,
         }
       default:
-        throw new Error(`Unhandled action type: ${type}`);
+        return state;
     }
   }

@@ -145,13 +145,9 @@ function App() {
   // INITIALIZE CART REDUCER
   const [{ cartCount, cartItems, isCartOpen, cartTotal }, cartDispatch] =
     useReducer(cartReducer, CART_INITIAL_STATE);
-
-  // INITIALIZE USER REDUCER
-  const [{ currentUser }] = useReducer(userReducer, USER_INITIAL_STATE);
-
-  // INITIALIZE CATEGORIES REDUCER
-  const [{categoriesMap}, categoriesDispatch] = useReducer(categoriesReducer, CATEGORIES_INITIAL_STATE);
-
+    
+    const [{ categoriesMap }] = useReducer(categoriesReducer, CATEGORIES_INITIAL_STATE);
+    useReducer(cartReducer, CART_INITIAL_STATE);
   // SET CATEGORIES MAP
   const setCategoriesMap = (categoriesMap) => {
     dis(createAction(CATEGORIES_ACTION_TYPES.SET_CATEGORIES, categoriesMap));
