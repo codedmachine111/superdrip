@@ -1,15 +1,15 @@
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { Button } from "../Button/Button";
 import "./PaymentForm.scss";
-import { useState, useContext } from "react";
-import { CartContext } from "../../App";
-import { AppContext } from "../../App";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { selectCartTotal } from "../../store/cart/cart.selector";
 
 export const PaymentForm = () => {
 
     const stripe = useStripe();
     const elements = useElements();
-    const {cartTotal} = useContext(CartContext);
+    const cartTotal = useSelector(selectCartTotal);
     // const {currentUser} = useContext(AppContext);
     const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
