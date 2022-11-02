@@ -8,12 +8,16 @@ import {CartDropdown} from '../CartDropdown/CartDropdown'
 import { useSelector } from 'react-redux';
 import { useContext } from 'react';
 import { ToggleCartContext } from '../../App';
+import { useNavigate } from 'react-router-dom';
 
 export const Navbar = () => {
   const currentUser = useSelector((state)=>state.user.currentUser)
   const {isCartOpen} = useContext(ToggleCartContext)
+  const navigate = useNavigate();
   const signOutHandler = async()=>{
       await signOutUser();
+      alert("User signed out successfully!")
+      navigate("/auth");
   }
 
   return (

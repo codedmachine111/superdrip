@@ -29,3 +29,20 @@
       font-size: 36px;
     }
   }
+
+.empty-cart {
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    img{
+        width: 20%;
+        margin-bottom: 20px;
+    }
+    .empty-message{
+        font-size: 3rem;
+        margin-bottom: 40px;
+    }
+}

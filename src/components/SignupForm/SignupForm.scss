@@ -26,26 +26,4 @@
     text-transform: capitalize;
 
   }
-  .btn-submit {
-    width: 50%;
-    margin: 0.5rem 0;
-    background-color: #0f0f0f;
-    color: #fff;
-    font-family: "Urbanist", sans-serif;
-    font-weight: 300;
-    -webkit-appearance: none;
-    border: 1px solid #7e7e7e;
-    outline: none;
-    font-size: 1rem;
-    border-radius: 10px;
-    cursor: pointer;
-    letter-spacing: 1px;
-    padding: 1rem;
-    -moz-appearance: none;
-  }
-  .btn-submit:hover {
-    background-color: #fff;
-    color: #0f0f0f;
-    transition: 0.3s ease;
-  }
 }

@@ -1,6 +1,5 @@
-export const CATEGORIES_ACTION_TYPES = {
-  SET_CATEGORIES: "SET_CATEGORIES",
-};
+import { CATEGORIES_ACTION_TYPES } from "./categories.types";
+
 export const CATEGORIES_INITIAL_STATE = {
   categoriesMap: {},
 };

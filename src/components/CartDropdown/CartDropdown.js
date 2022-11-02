@@ -25,10 +25,10 @@ export const CartDropdown = () => {
           ) : (
             <span className="empty-message">Your cart is empty</span>
           )}
-          <Link to="/checkout">
+        </div>
+        <Link to="/checkout">
             <Button title="Go to checkout" id="checkout" />
           </Link>
-        </div>
       </div>
     </>
   );

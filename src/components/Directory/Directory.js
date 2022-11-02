@@ -6,19 +6,19 @@ export const Directory = () => {
     {
       id: 1,
       title: "Hats",
-      img: "https://i.ibb.co/bLB646Z/red-beanie.png",
+      img: "https://i.ibb.co/1f2nWMM/wolf-cap.png",
       route: "/shop/hats",
     },
     {
       id: 2,
       title: "Jackets",
-      img: 'https://i.ibb.co/1RcFPk0/white-nike-high-tops.png',
+      img: 'https://i.ibb.co/XzcwL5s/black-shearling.png',
       route: "/shop/jackets",
     },
     {
       id: 3,
       title: "Sneakers",
-      img: 'https://i.ibb.co/N71k1ML/grey-jean-jacket.png',
+      img: 'https://i.ibb.co/QcvzydB/nikes-red.png',
       route: "/shop/sneakers",
     },
     {

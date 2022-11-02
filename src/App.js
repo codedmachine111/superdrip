@@ -18,6 +18,8 @@ import { stripePromise } from "./utils/stripe/stripe.utils";
 import { useDispatch } from "react-redux";
 import { createContext, useState } from "react";
 
+import { CATEGORIES_ACTION_TYPES } from "./store/categories/categories.types";
+
 export const ToggleCartContext = createContext({
   isCartOpen: false,
 });
@@ -27,21 +29,21 @@ const USER_ACTION_TYPES = {
   SET_CURRENT_USER: "SET_CURRENT_USER",
 };
 
-// ACTION TYPES FOR CATGEORIES REDUCER
-const CATEGORIES_ACTION_TYPES = {
-  SET_CATEGORIES: "SET_CATEGORIES",
-};
-
 function App() {
   // DISPATCH FOR REDUX
-  const dis = useDispatch();
+  const dispatch = useDispatch();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   
   // SET CURRENT USER USING DISPATCH
   const setCurrentUser = (user) => {
-    dis(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user));
+    dispatch(createAction(USER_ACTION_TYPES.SET_CURRENT_USER, user));
   };
+  // SET CATEGORIES MAP
+ const setCategoriesMap = (categoriesMap) => {
+  dispatch(createAction(CATEGORIES_ACTION_TYPES.SET_CATEGORIES, categoriesMap));
+};
+
 
   // CREATE USER DOCUMENT IN FIRESTORE AND SET CURRENT USER
   useEffect(() => {
@@ -54,10 +56,6 @@ function App() {
     return unsubscribe;
   }, []);
 
-  // SET CATEGORIES MAP
-  const setCategoriesMap = (categoriesMap) => {
-    dis(createAction(CATEGORIES_ACTION_TYPES.SET_CATEGORIES, categoriesMap));
-  };
 
   // FOR FETCHING CATEGORIES AND DOCUMENTS FROM FIRESTORE
   // AND SETTING THEM IN REDUX
