@@ -29,3 +29,43 @@
     }
   }
 }
+
+@media only screen and (max-width: 600px){
+  .auth-container {
+    flex-direction: column;
+    padding: 1rem 1rem;
+    .sign-in-container{
+      .sign-in{
+        width: 100%;
+      }
+    }
+    .sign-in-container,
+    .sign-up-container {
+      width: 100%;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+
+      h2 {
+        font-family: "Poppins", sans-serif;
+        font-size: 2.5rem;
+        padding: 0.5rem 0;
+        letter-spacing: 0.5px;
+        font-weight: 600;
+      }
+
+      p {
+        font-family: "Urbanist", sans-serif;
+        font-weight: 400;
+        font-size: 1.1rem;
+      }
+      .btn-submit{
+        width: 100%;
+      }
+      #google{
+        width: 100%;
+      }
+    }
+  }
+}

@@ -9,7 +9,7 @@ export const Checkout=()=> {
   const cartTotal = useSelector(selectCartTotal);
 
   return (
-    <div>
+    <>
        {cartItems.length ? (
             <div className='checkout-container'>
             <div className='checkout-header'>
@@ -42,7 +42,7 @@ export const Checkout=()=> {
               <p className='empty-message'>Your cart is empty</p>
             </div>
           )}
-    </div>
+    </>
   )
   
 }

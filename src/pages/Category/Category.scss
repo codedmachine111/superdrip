@@ -16,3 +16,12 @@
     padding: 2rem;
     text-align: center;
 }
+@media only screen and (max-width: 600px){
+    .category-products-container{
+        padding: 1rem 1rem;
+        .product-card-container{
+            width: 45%;
+        }
+    }
+
+}
